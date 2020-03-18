@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // css
-import './App.css';
+import classes from './App.css';
 // custom components
 import Person from './Person/Person'
 
@@ -36,22 +36,24 @@ class App extends Component {
 	}
 	render() {
 		const { persons, showPerson } = this.state;
-		let classes = [];
+		let btnClass = '';
+		let assignedClasses = [];
 		let personList = null;
 		if (showPerson) {
 			personList = persons.map((person, index) => <Person removePerson={this.deletePersonHandler.bind(this, index)} changed={(event) => this.changeNameHandle(event, person.id)} key={person.id} {...person} />)
+			btnClass = classes.Red;
 		}
 		if (persons.length <= 3) {
-			classes.push('red');
+			assignedClasses.push(classes.red);
 		}
 		if (persons.length <= 1) {
-			classes.push('bold');
+			assignedClasses.push(classes.bold);
 		}
 		return (
-			<div className="App">
+			<div className={classes.App}>
 				<h1>Hello React</h1>
-				<p className={classes.join(' ')}>This is working!</p>
-				<button className="button" onClick={() => this.togglePersonHandler()}>Switch {showPerson ? 'Off' : 'On'}</button>
+				<p className={assignedClasses.join(' ')}>This is working!</p>
+				<button className={btnClass} onClick={() => this.togglePersonHandler()}>Switch {showPerson ? 'Off' : 'On'}</button>
 				{personList}
 			</div>
 
