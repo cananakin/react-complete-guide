@@ -1,9 +1,23 @@
 .App {
   text-align: center;
 }
-.red{
+
+.red {
   color: red;
 }
-.bold{
+
+.bold {
   font-weight: bold;
+}
+
+.button {
+  background-color: green;
+  color: white;
+  border: 1px solid #222;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: salmon;
 }
