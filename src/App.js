@@ -1,11 +1,24 @@
 import React, { Component } from 'react';
-import Radium, { StyleRoot } from 'radium';
+import Radium from 'radium';
+import styled from 'styled-components'
 // css
 import './App.css';
 // custom components
 import Person from './Person/Person'
 
-// React Hooks Future
+// Button Style
+const ButtonStyle = styled.button`
+	background-color: ${props => props.showPerson ? 'red' : 'green'};
+	color: white;
+	border: 1px solid #222;
+	padding: 8px;
+	cursor: pointer;
+	
+	&:hover: {
+		background-color: ${props => props.showPerson ? 'salmon' : 'lightgreen'};
+	}
+`;
+
 class App extends Component {
 	state = {
 		persons: [
@@ -38,7 +51,7 @@ class App extends Component {
 	}
 	render () {
 		const { persons, showPerson } = this.state;
-		const style = {
+		/*const style = {
 			backgroundColor: 'green',
 			color: 'white',
 			border: '1px solid #222',
@@ -47,12 +60,12 @@ class App extends Component {
 			':hover': {
 				backgroundColor: 'blue'
 			}
-		}
+		}*/
 		let classes = [];
 		let personList = null;
 		if(showPerson){
-			style.backgroundColor = 'red';
-			style[':hover'].backgroundColor = 'black';
+			//style.backgroundColor = 'red';
+			//style[':hover'].backgroundColor = 'black';
 			personList = persons.map((person,index) => <Person removePerson={this.deletePersonHandler.bind(this,index)} changed={(event) => this.changeNameHandle(event, person.id)} key={person.id} {...person}/>  )
 		}
 		if(persons.length <= 3){
@@ -62,14 +75,13 @@ class App extends Component {
 			classes.push('bold');
 		}
 		return (
-			<StyleRoot>
-				<div className="App">
-					<h1>Hello React</h1>
-					<p className={classes.join(' ')}>This is working!</p>
-					<button style={style} onClick={() => this.togglePersonHandler()}>Switch { showPerson ? 'Off' : 'On'}</button>
-					{personList}
-				</div>
-			</StyleRoot>
+			<div className="App">
+				<h1>Hello React</h1>
+				<p className={classes.join(' ')}>This is working!</p>
+				<ButtonStyle showPerson={showPerson} onClick={() => this.togglePersonHandler()}>Switch { showPerson ? 'Off' : 'On'}</ButtonStyle>
+				{personList}
+			</div>
+		
 		)
 }
 	
