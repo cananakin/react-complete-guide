@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import classes from './App.css';
 // custom components
 import Person from './Person/Person'
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
 
 class App extends Component {
 	state = {
@@ -25,7 +26,9 @@ class App extends Component {
 	}
 
 	changeNameHandle = (event, id) => {
-		const personIndex = this.state.persons.findIndex(p => p.id === id);
+		const personIndex = this.state.persons.findIndex(p => {
+			return p.idd === id
+		});
 		const person = { ...this.state.persons[personIndex] };
 		person.name = event.target.value;
 		const persons = [...this.state.persons];
@@ -40,9 +43,18 @@ class App extends Component {
 		let assignedClasses = [];
 		let personList = null;
 		if (showPerson) {
-			personList = persons.map((person, index) => <Person removePerson={this.deletePersonHandler.bind(this, index)} changed={(event) => this.changeNameHandle(event, person.id)} key={person.id} {...person} />)
-			btnClass = classes.Red;
+			personList = persons.map((person, index) => {
+				return (
+				<ErrorBoundary key={person.id}>
+					<Person 
+						removePerson={this.deletePersonHandler.bind(this, index)} 
+						changed={(event) => this.changeNameHandle(event, person.id)} 
+						{...person} />
+				</ErrorBoundary>);
+			})
 		}
+		if (showPerson) 
+			btnClass = classes.Red;
 		if (persons.length <= 3) {
 			assignedClasses.push(classes.red);
 		}

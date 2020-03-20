@@ -1,11 +1,10 @@
 import React from 'react'
-import classes from './Person.scss'
-
+import './Person.scss'
 
 const Person = (props) => {
 
     return (
-        <div className={classes.Person}>
+        <div className='Person'>
             <p onClick={props.removePerson} >I'm { props.name } and I am { props.age } years old!</p>
             <p>{props.children}</p>
             <input type="text" onChange={props.changed}/>
