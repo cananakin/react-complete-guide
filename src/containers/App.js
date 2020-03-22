@@ -4,10 +4,6 @@ import classes from './App.css';
 // custom components
 import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit'
-import withClass from '../hoc/withClass'
-import Aux from '../hoc/Aux'
-import AuthContext from '../context/auth-context'
-
 
 class App extends Component {
 	constructor(props) {
@@ -19,28 +15,7 @@ class App extends Component {
 				{ id: 'md32', name: 'Jordan', age: 26 },
 			],
 			showPerson: false,
-			changeCounter: 0,
-			authenticated: false
 		};
-		console.log('[App.js]  constructor')
-	}
-
-	static getDerivedStateFromProps(props, state) {
-		console.log('[App.js] getDerivedStateFromProps', props)
-		return state
-	}
-
-	componentDidMount() {
-		console.log('[App.js] componentDidMount')
-	}
-
-	componentDidUpdate() {
-		console.log('[App.js] componentDidUpdate')
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		console.log('[App.js] shouldComponentUpdate')
-		return true;
 	}
 
 	changeNameHandle = (event, id) => {
@@ -72,13 +47,8 @@ class App extends Component {
 		this.setState({ showPerson: !this.state.showPerson });
 	}
 
-	loginHaddler = () => {
-		this.setState({ authenticated: true });
-	}
-
 	render() {
-		console.log('[App.js] rendering...')
-		const { persons, showPerson, authenticated } = this.state;
+		const { persons, showPerson } = this.state;
 
 		let personList = null;
 		if (showPerson) {
@@ -89,21 +59,17 @@ class App extends Component {
 		}
 
 		return (
-			<Aux>
-				<AuthContext.Provider value={{ authenticated: authenticated, login: this.loginHaddler }}>
-					<Cockpit
-						showPerson={showPerson}
-						persons={persons}
-						clicked={this.togglePersonHandler}
-					/>
-					{personList}
-				</AuthContext.Provider>
-			</Aux>
-
+			<div className={classes.App}>
+				<Cockpit
+					showPerson={showPerson}
+					persons={persons}
+					clicked={this.togglePersonHandler}
+				/>
+				{personList}
+			</div>
 		)
 	}
-
 }
 
-export default withClass(App, classes.App);
+export default App;
 
