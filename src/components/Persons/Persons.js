@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Person from './Person/Person'
+import AuthContext from '../../context/auth-context'
+
 
 class Persons extends Component {
     /*static getDerivedStatefromProps(props, state) {
@@ -37,18 +39,22 @@ class Persons extends Component {
 
     render() {
         console.log('[Persons.js] rendering...')
-        return this.props.persons.map((person, index) => {
-            return (
-                <Person 
-                    key={person.id}
-                    removePerson={() => this.props.clicked( index )} 
-                    changed={( event ) => this.props.changed( event, person.id )} 
-                    {...person} 
-                    isAuth={this.props.authenticated}
-                    />
-            
-            );
-        });
+        return <AuthContext.Consumer>
+            {
+                (context) => this.props.persons.map((person, index) => {
+                    return (
+                        <Person
+                            key={person.id}
+                            removePerson={() => this.props.clicked(index)}
+                            changed={(event) => this.props.changed(event, person.id)}
+                            {...person}
+                            isAuth={this.props.authenticated}
+                        />
+
+                    );
+                })
+            }
+        </AuthContext.Consumer>
     }
 }
 export default Persons

@@ -6,6 +6,8 @@ import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit'
 import withClass from '../hoc/withClass'
 import Aux from '../hoc/Aux'
+import AuthContext from '../context/auth-context'
+
 
 class App extends Component {
 	constructor(props) {
@@ -22,17 +24,17 @@ class App extends Component {
 		};
 		console.log('[App.js]  constructor')
 	}
-	
+
 	static getDerivedStateFromProps(props, state) {
 		console.log('[App.js] getDerivedStateFromProps', props)
 		return state
 	}
 
-	componentDidMount () {
+	componentDidMount() {
 		console.log('[App.js] componentDidMount')
 	}
 
-	componentDidUpdate () {
+	componentDidUpdate() {
 		console.log('[App.js] componentDidUpdate')
 	}
 
@@ -45,13 +47,13 @@ class App extends Component {
 		const personIndex = this.state.persons.findIndex(p => {
 			return p.id === id
 		});
-		
+
 		const person = { ...this.state.persons[personIndex] };
 		person.name = event.target.value;
-		
+
 		const persons = [...this.state.persons];
 		persons[personIndex] = person;
-		
+
 		this.setState((prevState, props) => {
 			return {
 				persons: persons,
@@ -77,25 +79,25 @@ class App extends Component {
 	render() {
 		console.log('[App.js] rendering...')
 		const { persons, showPerson, authenticated } = this.state;
-		
+
 		let personList = null;
 		if (showPerson) {
-			personList = <Persons 
-				persons={persons} 
-				clicked={this.deletePersonHandler} 
-            	changed={this.changeNameHandle} 
-				authenticated={authenticated} />
+			personList = <Persons
+				persons={persons}
+				clicked={this.deletePersonHandler}
+				changed={this.changeNameHandle} />
 		}
-		
+
 		return (
 			<Aux>
-				<Cockpit 
-					showPerson={showPerson}
-					persons={persons}
-					clicked={this.togglePersonHandler}
-					login={this.loginHaddler}
-				/>
-				{personList}
+				<AuthContext.Provider value={{ authenticated: authenticated, login: this.loginHaddler }}>
+					<Cockpit
+						showPerson={showPerson}
+						persons={persons}
+						clicked={this.togglePersonHandler}
+					/>
+					{personList}
+				</AuthContext.Provider>
 			</Aux>
 
 		)
