@@ -8,7 +8,7 @@ const Order = (props) => {
         ingredients.push({ name: i, amount: props.ingredients[i] })
     }
     const ingredient = ingredients.map(ing => {
-        return <span> {ing.name} ({ing.amount})</span>
+        return <span key={ing.name}> {ing.name} ({ing.amount})</span>
     })
     return (
         <div className={classes.Order}>
